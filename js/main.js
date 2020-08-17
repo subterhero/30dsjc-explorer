@@ -26,7 +26,23 @@ var populateDaySelect = function(){
 var populateAuthorSelect = function(){
     var select = $("#author-select");
     authors.forEach(function(element){
-        select.append(new Option("@"+element.username, element.username));
+        select.append(new Option(element.name + " (@" + element.screen_name + ")", element.screen_name));
+    });
+}
+
+
+
+var bindResetBtns = function(){
+    $('.form-group select, .form-group input').on("change keydown", function(){
+        if ($(this).val() != 0){
+            $(this).closest('.form-group').find('.reset-btn').show();
+        } else {
+            $(this).closest('.form-group').find('.reset-btn').hide();
+        }
+    })
+    $('.reset-btn').on("click tap", function(){
+        $(this).closest('.form-group').find('select,input').val("");
+        $(this).hide();
     });
 }
 
@@ -117,12 +133,19 @@ var loadBookmarksView = function(){
     }
 }
 
+var getAuthorName = function(screen_name){
+    var author =  _.find(authors, {screen_name: screen_name});
+    return author.name;
+};
+
 var buildPostList = function(posts, container){
     var bookmarks = getBookmarksIds();
     $(container).html('');
     $.each(posts, function(index, element){
+        var authorName = getAuthorName(element.username);
         var tplBlock = $($("#tweet-item-tpl").prop("content")).find(".tweet-item-wrapper").clone();
-        tplBlock.find('.author').html("@"+element.username);
+        tplBlock.find('.author').html(authorName);
+        tplBlock.find('.screen-name').html("@"+element.username);
         tplBlock.find('.subject').html(getDaySubject(element.day));
         tplBlock.find('.text').html(element.text);
         var urls = element.urls.split(",");
@@ -146,6 +169,7 @@ var main = function(){
     initMenu();
     populateDaySelect();
     populateAuthorSelect();
+    bindResetBtns();
     showView('search-form-view');
 
     var db = initDb();

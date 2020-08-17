@@ -41,9 +41,11 @@ h2 {
 }
 
 .form-group {
+    position: relative;
     max-width: 600px;
     margin: auto;
     margin-bottom: 1.5rem;
+    padding: 0 50px;
 }
 
 .head-block {
@@ -65,6 +67,39 @@ h2 {
     width: 100%;
     background-color: #fff;
     z-index: 2;
+}
+
+.form-group .reset-btn {
+    position: absolute;
+    right: 0;
+    top: 30px;
+    display: none;
+    cursor: pointer;
+}
+
+.cross {
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.cross::before, .cross::after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 17px;
+    content: " ";
+    background-color: #333;
+    height: 100%;
+    width: 3px;
+}
+
+.cross::after {
+    transform: rotate(45deg);
+}
+
+.cross::before {
+    transform: rotate(-45deg);
 }
 
 .view {
@@ -123,6 +158,14 @@ h2 {
 }
 
 .tweet-item .author {
+    font-weight: bold;
+    padding-top: 15px;
+    padding-bottom: 0;
+}
+
+.tweet-item .screen-name {
+    font-size: 0.9rem;
+    color: #8a8a8a;
     font-weight: bold;
     padding-bottom: 10px;
 }
